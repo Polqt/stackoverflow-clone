@@ -25,7 +25,7 @@ export default async function createVoteCollection() {
       db,
       votesCollection,
       'voteStatus',
-      ['up', 'down'],
+      ['thumbsup', 'thumbsdown'],
       true,
     ),
     databases.createStringAttribute(db, votesCollection, 'voteById', 50, true),
