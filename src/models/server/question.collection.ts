@@ -42,7 +42,7 @@ export default async function createQuestionCollection() {
     databases.createStringAttribute(
       db,
       questionCollection,
-      'attachmendId',
+      'attachmentId',
       50,
       false,
     ),
@@ -55,7 +55,7 @@ export default async function createQuestionCollection() {
   await Promise.all([
     databases.createIndex(
       db,
-      quesitionCollection,
+      questionCollection,
       'title',
       IndexType.Fulltext,
       ['title'],
@@ -63,7 +63,7 @@ export default async function createQuestionCollection() {
     ),
     databases.createIndex(
       db,
-      quesitionCollection,
+      questionCollection,
       'content',
       IndexType.Fulltext,
       ['content'],
