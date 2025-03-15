@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuthStore } from '@/store/Auth';
+import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 
 export default function LoginPage() {
@@ -38,8 +39,7 @@ export default function LoginPage() {
   // TODO: Design the UI
   return (
     <div>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}></form>
+      <h2>Stackover Flow Clone</h2>
     </div>
   );
 }
