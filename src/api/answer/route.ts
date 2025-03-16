@@ -63,7 +63,21 @@ export async function DELETE(req: NextRequest) {
     const err = error as { message?: string; status?: number; code?: number };
     return NextResponse.json(
       {
-        error: err.message || 'Error creating answer',
+        error: err.message || 'Error deleting answer',
+      },
+      { status: err.status || err.code || 500 },
+    );
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+
+  } catch (error: unknown) {
+    const err = error as { message?: string; status?: number; code?: number };
+    return NextResponse.json(
+      {
+        error: err.message || 'Error updating answer',
       },
       { status: err.status || err.code || 500 },
     );

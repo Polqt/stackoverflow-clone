@@ -1,7 +1,6 @@
 'use client';
 
 import { useAuthStore } from '@/store/Auth';
-import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 
 export default function LoginPage() {
