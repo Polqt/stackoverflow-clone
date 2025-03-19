@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ID } from 'node-appwrite';
 import { UserPrefs } from '@/store/Auth';
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const { questionId, answer, authorId } = await request.json();
 
@@ -33,14 +33,14 @@ export async function POST(req: NextRequest) {
     const err = error as { message?: string; status?: number; code?: number };
     return NextResponse.json(
       {
-        error: err.message || 'Error creating answer',
+        error: err?.message || 'Error creating answer',
       },
-      { status: err.status || err.code || 500 },
+      { status: err?.status || err.code || 500 },
     );
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(request: NextRequest) {
   try {
     const { answerId } = await request.json();
 
@@ -63,23 +63,38 @@ export async function DELETE(req: NextRequest) {
     const err = error as { message?: string; status?: number; code?: number };
     return NextResponse.json(
       {
-        error: err.message || 'Error deleting answer',
+        error: err?.message || 'Error deleting answer',
       },
-      { status: err.status || err.code || 500 },
+      { status: err?.status || err.code || 500 },
     );
   }
 }
 
-export async function PUT(req: NextRequest) {
+export async function PUT(request: NextRequest) {
   try {
+    const { answerId, answer } = await request.json();
 
+    const response = await databases.updateDocument(
+      db,
+      answerCollection,
+      answerId,
+      { content: answer },
+    );
+
+    if (!response.$id) {
+      throw new Error('Answer not found');
+    }
+
+    return NextResponse.json(response, {
+      status: 200,
+    });
   } catch (error: unknown) {
     const err = error as { message?: string; status?: number; code?: number };
     return NextResponse.json(
       {
-        error: err.message || 'Error updating answer',
+        error: err?.message || 'Error updating answer',
       },
-      { status: err.status || err.code || 500 },
+      { status: err?.status || err.code || 500 },
     );
   }
 }
