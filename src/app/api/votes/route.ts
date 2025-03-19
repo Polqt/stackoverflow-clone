@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
         db,
         type === 'question' ? questionCollection : answerCollection,
         typeId,
-      );
+      ); 
 
       const authorPrefs = await users.getPrefs<UserPrefs>(
         QuestionOrAnswer.authorId,
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
               : Number(authorPrefs.reputation) - 1,
         });
       }
-      
+
     }
 
     const [thumbsup, thumbsdown] = await Promise.all([
