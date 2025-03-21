@@ -43,22 +43,45 @@ export const useAuthStore = create<IAuthStore>()(
       async verifySession() {
         try {
           const session = await account.getSession('current');
-          set({ session });
+          const user = await account.get<UserPrefs>();
+
+          set({ session, user });
+          if (!useAuthStore.getState().jwt) {
+            try {
+              const { jwt } = await account.createJWT();
+              set({ jwt });
+            } catch (jwtError) {
+              console.log('Error creating JWT:', jwtError);
+            }
+          }
         } catch (error) {
           console.log(error);
+          set({ session: null, user: null, jwt: null })
         }
       },
 
       async login(email: string, password: string) {
         try {
+
+          // Make sure to delete all sessions before trying to login
+          try {
+            await account.deleteSessions()
+          } catch (error) {
+            console.log('Error deleting sessions:', error)
+          }
+      
           const session = await account.createEmailPasswordSession(
             email,
             password,
           );
+
+          // Get user data and JWT
           const [user, { jwt }] = await Promise.all([
             account.get<UserPrefs>(),
             account.createJWT(),
           ]);
+
+          // Set reputation to 0 if it doesn't exist
           if (!user.prefs?.reputation)
             await account.updatePrefs<UserPrefs>({ reputation: 0 });
 
@@ -88,10 +111,10 @@ export const useAuthStore = create<IAuthStore>()(
 
       async logout() {
         try {
-            await account.deleteSessions()
-            set({ session: null, user: null, jwt: null })
+          await account.deleteSessions();
+          set({ session: null, user: null, jwt: null });
         } catch (error) {
-            console.log(error)
+          console.log(error);
         }
       },
     })),
