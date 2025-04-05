@@ -7,7 +7,7 @@ export default async function createQuestionCollection() {
   await databases.createCollection(
     db,
     questionCollection,
-    'questionCollection',
+    questionCollection,
     [
       Permission.read('any'),
       Permission.read('users'),

@@ -3,7 +3,7 @@ import { db, answerCollection } from '../name';
 import { databases } from './config';
 
 export default async function createAnswerCollection() {
-    await databases.createCollection(db, answerCollection, 'answerCollection', [
+    await databases.createCollection(db, answerCollection, answerCollection, [
       Permission.read('any'),
       Permission.read('users'),
       Permission.create('users'),

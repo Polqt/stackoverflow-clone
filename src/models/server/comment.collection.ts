@@ -3,7 +3,7 @@ import { commentCollection, db } from '../name';
 import { databases } from './config';
 
 export default async function createCommentCollection() {
-  await databases.createCollection(db, commentCollection, 'commentCollection', [
+  await databases.createCollection(db, commentCollection, commentCollection, [
     Permission.read('any'),
     Permission.read('any'),
     Permission.create('any'),
@@ -14,7 +14,7 @@ export default async function createCommentCollection() {
   console.log(`Collection ${commentCollection} created successfully.`);
 
   await Promise.all([
-    databases.createStringAttribute(db, commentCollection, 'type', 50, true), // Type of comment (question or answer)
+    databases.createEnumAttribute(db, commentCollection, 'type', ['answer', 'question'], true), // Type of comment (question or answer)
     databases.createStringAttribute(db, commentCollection, 'content', 50, true),
     databases.createStringAttribute(db, commentCollection, 'typeId', 50, true),
     databases.createStringAttribute(
