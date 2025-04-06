@@ -29,8 +29,8 @@ function RegisterPage() {
 
     const response = await createAccount(
       `${firstName} ${lastName}`,
-      email,
-      password,
+      email.toString(),
+      password.toString(),
     );
 
     if (response.error) {
