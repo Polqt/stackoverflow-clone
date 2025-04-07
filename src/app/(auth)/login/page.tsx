@@ -1,7 +1,9 @@
+'use client';
+
 import { useAuthStore } from '@/store/Auth';
 import { useState } from 'react';
 
-function LoginPage() {
+export default function LoginPage() {
   const { login } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -33,7 +35,13 @@ function LoginPage() {
     }
     setIsLoading(() => false);
   };
-  return <div>{error && <p className="text-red-500">{error}</p>}</div>;
+  return (
+    <div className="">
+      <div className="">
+        <h1>Login in InquiHero</h1>
+        <p></p>
+      </div>
+      {error && <p className="text-red-500">{error}</p>}
+    </div>
+  );
 }
-
-export default LoginPage;

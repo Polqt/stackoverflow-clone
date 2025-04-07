@@ -1,3 +1,5 @@
+'use client';
+
 import { useAuthStore } from '@/store/Auth';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -8,17 +10,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!session) {
-      router.push('/auth/login');
+      router.push('/login');
     }
   }, [session, router]);
 
-  if (session) {
-    return null;
-  }
 
   return (
-    <html lang="en">
-      <body className={``}>{children}</body>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className={`antialiased`}>{children}</body>
     </html>
   );
 };

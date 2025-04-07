@@ -1,7 +1,9 @@
+'use client';
+
 import { useAuthStore } from '@/store/Auth';
 import { useState } from 'react';
 
-function RegisterPage() {
+export default function RegisterPage() {
   const { createAccount, login } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -46,7 +48,13 @@ function RegisterPage() {
     setIsLoading(() => false);
   };
 
-  return <div>{error && <p className="text-red-500">{error}</p>}</div>;
+  return (
+    <div>
+      <div>
+        {' '}
+        <h1>Register</h1>
+        {error && <p className="text-red-500">{error}</p>}
+      </div>
+    </div>
+  );
 }
-
-export default RegisterPage;
