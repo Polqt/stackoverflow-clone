@@ -16,9 +16,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
 
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body className={`antialiased`}>{children}</body>
-    </html>
+    <div className=''>
+     {children}
+    </div>
   );
 };
 
