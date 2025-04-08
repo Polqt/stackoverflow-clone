@@ -106,7 +106,7 @@ export default function RegisterPage() {
               disabled={isLoading}
               type="button"
             >
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Signing up...' : 'Sign up'}
             </Button>
             <p className="text-slate-500 text-sm">
               Already have an account?{' '}
