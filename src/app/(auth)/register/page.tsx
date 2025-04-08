@@ -14,9 +14,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/store/Auth';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const { createAccount, login } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -26,7 +28,7 @@ export default function RegisterPage() {
 
     // Collect form data
     const formData = new FormData(e.currentTarget);
-    const firstName = formData.get('firtName') as string;
+    const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
@@ -52,6 +54,7 @@ export default function RegisterPage() {
       setError(() => response.error!.message);
     } else {
       const loginResponse = await login(email.toString(), password.toString());
+      router.push('/login');
 
       if (loginResponse.error) {
         setError(() => loginResponse.error!.message);
@@ -69,7 +72,7 @@ export default function RegisterPage() {
           <CardDescription>
             Create an account to join the community
           </CardDescription>
-          {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -77,11 +80,21 @@ export default function RegisterPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-1 space-y-1.5">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" type="text" placeholder="Jepoy" />
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    placeholder="Jepoy"
+                  />
                 </div>
                 <div className="col-span-1 space-y-1.5">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" type="text" placeholder="Hidalgo" />
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    placeholder="Hidalgo"
+                  />
                 </div>
               </div>
 
@@ -89,25 +102,27 @@ export default function RegisterPage() {
                 <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="poyhidalgo@example.com"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" />
+                <Input id="password" name="password" type="password" />
               </div>
             </div>
-          </form>
-          <CardFooter className="flex flex-col justify-center mt-4">
+
             <Button
               variant={'outline'}
               className="w-full mb-4"
               disabled={isLoading}
-              type="button"
+              type="submit"
             >
               {isLoading ? 'Signing up...' : 'Sign up'}
             </Button>
+          </form>
+          <CardFooter className="flex flex-col justify-center">
             <p className="text-slate-500 text-sm">
               Already have an account?{' '}
               <Link href={'/login'}>Sign in here!</Link>

@@ -54,9 +54,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle>InquiHero</CardTitle>
           <CardDescription>Sign in to continue to InquiHero</CardDescription>
-          {error && (
-            <p className='text-red-500'>{error}</p>
-          )}
+          {error && <p className="text-red-500">{error}</p>}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -65,21 +63,30 @@ export default function LoginPage() {
                 <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="poyhidalgo@example.com"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" />
+                <Input id="password" name="password" type="password" />
               </div>
             </div>
           </form>
           <CardFooter className="flex flex-col justify-center mt-4">
-            <Button variant={'outline'} className="w-full mb-4" disabled={isLoading} type='button'>
+            <Button
+              variant={'outline'}
+              className="w-full mb-4"
+              disabled={isLoading}
+              type="submit"
+            >
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
-            <p className='text-slate-500 text-sm'>Don&apos;t have an account? <Link href={'/register'}>Sign up here!</Link></p>
+            <p className="text-slate-500 text-sm">
+              Don&apos;t have an account?{' '}
+              <Link href={'/register'}>Sign up here!</Link>
+            </p>
             <BorderBeam duration={8} size={100} />
           </CardFooter>
         </CardContent>
