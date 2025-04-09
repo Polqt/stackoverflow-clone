@@ -8,8 +8,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { IconBrandGithub, IconBrandLinkedin } from '@tabler/icons-react';
-import { HomeIcon, LogInIcon } from 'lucide-react';
+import { IconBrandGithub, IconBrandLinkedin,  } from '@tabler/icons-react';
+import { HomeIcon, LogInIcon, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 
 function DockComponent() {
@@ -17,6 +17,7 @@ function DockComponent() {
     navbar: [
       { href: '/', icon: HomeIcon, label: 'Home' },
       { href: '/login', icon: LogInIcon, label: 'Login' },
+      { href: '/register', icon: UserPlus, label: 'Register' },
     ],
     contact: {
       social: {
