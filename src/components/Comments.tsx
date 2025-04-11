@@ -50,13 +50,29 @@ const Comments = ({
     }
   };
 
-  // const updateComment = async (commentId: string, text: string) => {
-  //   try {
-      
-  //   } catch (error: unknown) {
-  //     console.error('Error updating comment:', error);
-  //   }
-  // };
+  const updateComment = async (commentId: string, text: string) => {
+    try {
+      const response = await databases.updateDocument(
+        db,
+        commentCollection,
+        commentId,
+        {
+          content: text,
+        },
+      );
+
+      setComments(prev => ({
+        total: prev.total,
+        documents: prev.documents.map(comment =>
+          comment.$id === commentId ? { ...comment, content: text } : comment,
+        ),
+      }));
+
+      return response;
+    } catch (error: unknown) {
+      console.error('Error updating comment:', error);
+    }
+  };
 
   const deleteComment = async (commentId: string) => {
     try {

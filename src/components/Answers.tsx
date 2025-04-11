@@ -64,12 +64,35 @@ const Answers = ({
     }
   };
 
-  // const updateAnswer = async (answerId: string, text: string) => {
-  //   try {
-  //   } catch (error: unknown) {
-  //     console.error('Error updating answer:', error);
-  //   }
-  // };
+  const updateAnswer = async (answerId: string, text: string) => {
+    try {
+      const response = await fetch('/api/answer', {
+        method: 'PUT',
+        body: JSON.stringify({
+          answerId: answerId,
+          answer: text,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
+      setNewAnswer(() => '');
+      setAnswers(prev => ({
+        total: prev.total,
+        documents: prev.documents.map(answer =>
+          answer.$id === answerId ? { ...answer, content: text } : answer,
+        ),
+      }));
+
+      return data;
+    } catch (error: unknown) {
+      console.error('Error updating answer:', error);
+    }
+  };
 
   const deleteAnswer = async (answerId: string) => {
     try {
@@ -95,11 +118,7 @@ const Answers = ({
     }
   };
 
-  return (
-    <>
-      
-    </>
-  );
+  return <></>;
 };
 
 export default Answers;

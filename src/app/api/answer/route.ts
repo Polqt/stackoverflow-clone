@@ -52,6 +52,56 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function PUT(request: NextRequest) {
+  try {
+    const { answerId, answer, authorId } = await request.json();
+
+    if (!answerId || !answer || !authorId) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 },
+      );
+    }
+
+    const answerDoc = await databases.getDocument(
+      db,
+      answerCollection,
+      answerId,
+    );
+
+    if (!answerDoc) {
+      return NextResponse.json({ error: 'Answer not found' }, { status: 404 });
+    }
+
+    const response = await databases.updateDocument(
+      db,
+      answerCollection,
+      answerId,
+      {
+        content: answer,
+        authorId: authorId,
+      },
+    );
+
+    return NextResponse.json(response, {
+      status: 200,
+    });
+  } catch (error: unknown) {
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error ? error?.message : 'Error creating answer',
+      },
+      {
+        status:
+          error instanceof Error && 'status' in error
+            ? (error as { status: number }).status
+            : 500,
+      },
+    );
+  }
+}
+
 export async function DELETE(request: NextRequest) {
   try {
     const { answerId } = await request.json();
