@@ -10,6 +10,7 @@ import {
   questionAttachmentBucket,
   questionCollection,
 } from '@/models/name';
+import { slugify } from '@/utils/slugify';
 
 const QuestionForm = ({ question }: { question?: Models.Document }) => {
   const { user } = useAuthStore();
@@ -59,12 +60,34 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
   const update = async () => {
     if (!formData.attachment) throw new Error('Attachment is required.');
 
-    await storage.deleteFile(questionAttachmentBucket, question?.attachmentId);
+    const attachmentId = await (async () => {
+      if (!formData.attachment) return question?.attachmentId as string;
 
-    const file = await storage.createFile(
-      questionAttachmentBucket,
-      ID.unique(),
-      formData.attachment,
+      await storage.deleteFile(
+        questionAttachmentBucket,
+        question?.attachmentId,
+      );
+
+      const file = await storage.createFile(
+        questionAttachmentBucket,
+        ID.unique(),
+        formData.attachment,
+      );
+
+      return file.$id;
+    })();
+
+    const response = await databases.updateDocument(
+      db,
+      questionCollection,
+      question?.id,
+      {
+        title: formData.title,
+        content: formData.content,
+        authorId: formData.authorId,
+        tags: Array.from(formData.tags),
+        attachmentId: attachmentId,
+      },
     );
 
     return response;
@@ -93,6 +116,8 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
     } catch (error: unknown) {
       console.error(`Error: ${error}`);
     }
+
+    setLoading(() => false);
   };
 
   return <div></div>;
