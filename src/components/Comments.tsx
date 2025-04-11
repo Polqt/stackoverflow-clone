@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { databases } from '@/models/client/config';
 import { commentCollection, db } from '@/models/name';
 import { useAuthStore } from '@/store/Auth';
@@ -49,12 +50,13 @@ const Comments = ({
     }
   };
 
-  const updateComment = async (commentId: string, text: string) => {
-    try {
-    } catch (error: unknown) {
-      console.error('Error updating comment:', error);
-    }
-  };
+  // const updateComment = async (commentId: string, text: string) => {
+  //   try {
+      
+  //   } catch (error: unknown) {
+  //     console.error('Error updating comment:', error);
+  //   }
+  // };
 
   const deleteComment = async (commentId: string) => {
     try {
@@ -70,7 +72,7 @@ const Comments = ({
   };
 
   return (
-    <div>
+    <div className={cn('flex flex-col gap-2 pl-4', className)}>
       <h1></h1>
     </div>
   );
