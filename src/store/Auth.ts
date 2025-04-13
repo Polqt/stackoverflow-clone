@@ -51,14 +51,32 @@ export const useAuthStore = create<IAuthStore>()(
       async verifySession() {
         try {
           const session = await account.getSession('current');
-          set({ session });
+          const user = await account.get<UserPrefs>();
+          set({ session, user });
         } catch (error: unknown) {
           console.error('Error verifying session:', error);
+          
         }
       },
 
       async login(email: string, password: string) {
         try {
+          try {
+            await account.deleteSession('current');
+            console.log('Deleted existing session before new login.');
+          } catch (deleteError: unknown) {
+            if (
+              !(
+                deleteError instanceof AppwriteException &&
+                deleteError.code === 401
+              )
+            ) {
+              console.warn(
+                'Error deleting current session before login:',
+                deleteError,
+              );
+            }
+          }
           const session = await account.createEmailPasswordSession(
             email,
             password,
@@ -68,14 +86,19 @@ export const useAuthStore = create<IAuthStore>()(
             account.createJWT(),
           ]);
 
-          if (!user.prefs?.reputation)
+          if (user.prefs && typeof user.prefs.reputation === 'undefined') {
+            await account.updatePrefs<UserPrefs>({
+              reputation: user.prefs.reputation ?? 0,
+            });
+          } else if (!user.prefs) {
             await account.updatePrefs<UserPrefs>({ reputation: 0 });
+          }
 
           set({ session, user, jwt });
-
           return { success: true };
         } catch (error: unknown) {
           console.error(`Error logging in:`, error);
+          set({ session: null, user: null, jwt: null });
           return {
             success: false,
             error: error instanceof AppwriteException ? error : null,

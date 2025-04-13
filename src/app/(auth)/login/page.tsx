@@ -13,13 +13,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from '@/store/Auth';
+import { slugify } from '@/utils/slugify';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginPage() {
   const { login } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
+  const user = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,6 +49,8 @@ export default function LoginPage() {
     if (response.error) {
       setError(() => response.error!.message);
       return;
+    } else {
+      router.push(`/`);
     }
     setIsLoading(() => false);
   };
@@ -73,20 +79,23 @@ export default function LoginPage() {
                 <Input id="password" name="password" type="password" />
               </div>
             </div>
+            <CardFooter className="flex flex-col justify-center mt-4">
+              <Button
+                variant={'outline'}
+                className="w-full mb-4"
+                disabled={isLoading}
+                type="submit"
+              >
+                {isLoading ? 'Logging in...' : 'Login'}
+              </Button>
+              <p className="text-slate-500 text-sm">
+                Don&apos;t have an account?{' '}
+                <Link href={'/register'}>Sign up here!</Link>
+              </p>
+              <BorderBeam duration={8} size={100} />
+            </CardFooter>
           </form>
           <CardFooter className="flex flex-col justify-center mt-4">
-            <Button
-              variant={'outline'}
-              className="w-full mb-4"
-              disabled={isLoading}
-              type="submit"
-            >
-              {isLoading ? 'Logging in...' : 'Login'}
-            </Button>
-            <p className="text-slate-500 text-sm">
-              Don&apos;t have an account?{' '}
-              <Link href={'/register'}>Sign up here!</Link>
-            </p>
             <BorderBeam duration={8} size={100} />
           </CardFooter>
         </CardContent>
