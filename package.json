@@ -22,7 +22,7 @@
     "clsx": "^2.1.1",
     "immer": "^10.1.1",
     "lucide-react": "^0.487.0",
-    "motion": "^12.6.3",
+    "motion": "^12.6.5",
     "next": "15.2.4",
     "node-appwrite": "^15.0.1",
     "react": "^19.0.0",
