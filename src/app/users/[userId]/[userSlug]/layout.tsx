@@ -13,7 +13,8 @@ const Layout = async ({
   children: React.ReactNode;
   params: { userId: string; userSlug: string };
 }) => {
-  const user = await users.get<UserPrefs>(params.userId);
+  const resolvedParams = await Promise.resolve(params);
+  const user = await users.get<UserPrefs>(resolvedParams.userId);
 
   return (
     <div className="container mx-auto space-y-4 px-4 pb-20 pt-32">

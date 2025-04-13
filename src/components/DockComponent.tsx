@@ -8,16 +8,21 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/Auth';
+import { slugify } from '@/utils/slugify';
 import { IconBrandGithub, IconBrandLinkedin,  } from '@tabler/icons-react';
-import { HomeIcon, LogInIcon, UserPlus } from 'lucide-react';
+import { CircleHelp, CircleUserRound, HomeIcon, LogInIcon, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 
-function DockComponent() {
+export default function DockComponent() {
+  const { user } = useAuthStore();
+  
   const Navigation = {
     navbar: [
       { href: '/', icon: HomeIcon, label: 'Home' },
       { href: '/login', icon: LogInIcon, label: 'Login' },
       { href: '/register', icon: UserPlus, label: 'Register' },
+      { href: '/questions', icon: CircleHelp, label: 'Questions' },
     ],
     contact: {
       social: {
@@ -34,6 +39,15 @@ function DockComponent() {
       },
     },
   };
+
+  if (user) {
+    Navigation.navbar.push({
+      href: `/users/${user.$id}/${slugify(user.name)}`,
+      icon: CircleUserRound, 
+      label: 'Profile',
+    });
+  }
+  
   return (
     <TooltipProvider>
       <Dock direction="middle">
@@ -84,4 +98,3 @@ function DockComponent() {
     </TooltipProvider>
   );
 }
-export default DockComponent;

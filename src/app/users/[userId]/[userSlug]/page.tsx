@@ -10,14 +10,16 @@ const Page = async ({
 }: {
   params: { userId: string; userSlug: string };
 }) => {
+  const resolvedParams = await Promise.resolve(params);
+
   const [user, questions, answers] = await Promise.all([
-    users.get<UserPrefs>(params.userId),
+    users.get<UserPrefs>(resolvedParams.userId),
     databases.listDocuments(db, questionCollection, [
-      Query.equal('authorId', params.userId),
+      Query.equal('authorId', resolvedParams.userId),
       Query.limit(1),
     ]),
     databases.listDocuments(db, answerCollection, [
-      Query.equal('authorId', params.userId),
+      Query.equal('authorId', resolvedParams.userId),
       Query.limit(1),
     ]),
   ]);
