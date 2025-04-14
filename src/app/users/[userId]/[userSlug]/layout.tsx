@@ -2,7 +2,7 @@ import { avatars } from '@/models/client/config';
 import { users } from '@/models/server/config';
 import { UserPrefs } from '@/store/Auth';
 import convertDateToRelativeTime from '@/utils/relativeTime';
-import { IconClockFilled, IconUserFilled } from '@tabler/icons-react';
+import { IconCalendar, IconClock } from '@tabler/icons-react';
 import Navbar from './Navbar';
 import EditButton from './EditButton';
 
@@ -17,40 +17,60 @@ const Layout = async ({
   const user = await users.get<UserPrefs>(resolvedParams.userId);
 
   return (
-    <div className="container mx-auto space-y-4 px-4 pb-20 pt-32">
-      <div className="flex flex-col gap-4 sm:flex-row">
-        <div className="w-40 shrink-0">
-          <picture className="block w-full">
-            <img
-              src={avatars.getInitials(user.name, 200, 200)}
-              alt={user.name}
-              className="w-full h-full object-cover rounded-xl"
-            />
-          </picture>
-        </div>
-        <div className="w-full">
-          <div className="flex items-start justify-between">
-            <div className="block space-y-0.5">
-              <h1 className="text-4xl font-bold">{user.name}</h1>
-              <p className="text-lg text-gray-500">{user.email}</p>
-              <p className="flex items-center gap-1 text-sm font-bold text-slate-500">
-                <IconUserFilled className="w-4 shrink-0" />
-                {convertDateToRelativeTime(new Date(user.$createdAt))},
-              </p>
-              <p className="flex items-center gap-1 text-sm font-bold text-slate-500">
-                <IconClockFilled className="w-4 shrink-0" />
-                {convertDateToRelativeTime(new Date(user.$updatedAt))}
-              </p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Profile Header */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden mb-6">
+        <div className="h-32 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+        <div className="px-6 py-6 sm:px-8 sm:py-8 relative">
+          <div className="sm:flex sm:items-end sm:justify-between">
+            {/* Avatar and User Info */}
+            <div className="flex items-center sm:items-start">
+              <div className="-mt-16 sm:-mt-20 relative">
+                <picture>
+                  <img
+                    src={avatars.getInitials(user.name, 200, 200)}
+                    alt={user.name}
+                    className="h-24 w-24 sm:h-32 sm:w-32 rounded-full ring-4 ring-white dark:ring-gray-800 object-cover"
+                  />
+                </picture>
+              </div>
+              <div className="ml-4 sm:ml-6 mt-2 sm:-mt-6">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                  {user.name}
+                </h1>
+                <p className="text-gray-500 dark:text-gray-400">{user.email}</p>
+                <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center">
+                    <IconCalendar className="w-4 h-4 mr-1.5" />
+                    <span>
+                      Joined{' '}
+                      {convertDateToRelativeTime(new Date(user.$createdAt))}
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <IconClock className="w-4 h-4 mr-1.5" />
+                    <span>
+                      Last active{' '}
+                      {convertDateToRelativeTime(new Date(user.$updatedAt))}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="shrink-0">
+            {/* Edit Button */}
+            <div className="mt-4 sm:mt-0">
               <EditButton />
             </div>
           </div>
         </div>
+        {/* Navigation */}
+        <div className="px-4 sm:px-0">
+          <Navbar />
+        </div>
       </div>
-      <div className="flex flex-col gap-4 sm:flex-row">
-        <Navbar />
-        <div className="w-full">{children}</div>
+      {/* Content */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6">
+        {children}
       </div>
     </div>
   );

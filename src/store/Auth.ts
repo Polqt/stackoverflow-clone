@@ -55,7 +55,6 @@ export const useAuthStore = create<IAuthStore>()(
           set({ session, user });
         } catch (error: unknown) {
           console.error('Error verifying session:', error);
-          
         }
       },
 

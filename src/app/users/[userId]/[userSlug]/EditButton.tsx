@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuthStore } from '@/store/Auth';
+import { IconEdit } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -13,10 +14,10 @@ const EditButton = () => {
   return (
     <Link
       href={`/users/${userId}/${userSlug}/edit`}
-      className="relative rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-black dark:border-whote/[0.2] dark:text-white"
+      className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors"
     >
-      <span>Edit</span>
-      <span className="absolute inset-x-0 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></span>
+      <IconEdit className="w-4 h-4" />
+      <span>Edit Profile</span>
     </Link>
   );
 };

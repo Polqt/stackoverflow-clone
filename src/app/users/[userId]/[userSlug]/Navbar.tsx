@@ -27,20 +27,29 @@ const Navbar = () => {
   ];
 
   return (
-    <ul className="flex w-full shrink-0 gap-1 overflow-auto sm:w-40 sm:flex-col">
-      {items.map(item => (
-        <li key={item.name}>
+    <nav className="border-b dark:border-gray-700">
+      <div className="flex overflow-x-auto scrollbar-hide">
+        {items.map(item => (
           <Link
-            className={`block w-full rounded-full px-3 py-0.5 duration-200 ${
-              pathname === item.href ? 'bg-blue-500' : 'hover:bg-blue-500/50'
-            }`}
+            key={item.name}
             href={item.href}
+            className={`
+              relative py-4 px-6 text-sm font-medium whitespace-nowrap
+              ${
+                pathname === item.href
+                  ? 'text-blue-600 dark:text-blue-400'
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+              }
+            `}
           >
             {item.name}
+            {pathname === item.href && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400"></span>
+            )}
           </Link>
-        </li>
-      ))}
-    </ul>
+        ))}
+      </div>
+    </nav>
   );
 };
 
