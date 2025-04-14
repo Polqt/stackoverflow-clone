@@ -95,26 +95,6 @@ const Page = async ({
           </div>
         </MagicCard>
       </div>
-
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Recent Achievements</h2>
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <MagicCard
-              key={i}
-              className="min-w-64 p-4 flex items-center gap-3"
-            >
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold">
-                {i + 1}
-              </div>
-              <div>
-                <h3 className="font-medium">Achievement {i + 1}</h3>
-                <p className="text-sm text-gray-500">Unlocked recently</p>
-              </div>
-            </MagicCard>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
