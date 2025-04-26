@@ -41,8 +41,8 @@ export default function RootLayout({
           />
         )}
         {children}
+        {!isPage && <DockComponent />}
       </body>
-      {!isPage && <DockComponent />}
     </html>
   );
 }

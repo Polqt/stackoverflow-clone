@@ -6,6 +6,7 @@ import {
   questionCollection,
   voteCollection,
 } from '@/models/name';
+import { users } from '@/models/server/config';
 import { UserPrefs } from '@/store/Auth';
 import { Query } from 'node-appwrite';
 

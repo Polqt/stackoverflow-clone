@@ -27,7 +27,7 @@ export default function DockComponent() {
     navbar: [
       { href: '/', icon: HomeIcon, label: 'Home' },
       { href: '/register', icon: UserPlus, label: 'Register' },
-      { href: '/questions', icon: CircleHelp, label: 'Questions' },
+      { href: '/question', icon: CircleHelp, label: 'Question' },
       { href: '/login', icon: LogInIcon, label: 'Login' },
       { href: '/logout', icon: LogInIcon, label: 'Logout' },
     ],
