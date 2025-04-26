@@ -10,6 +10,7 @@ export interface UserPrefs {
 }
 
 interface IAuthStore {
+  $id: string;
   session: Models.Session | null;
   jwt: string | null;
   user: Models.User<UserPrefs> | null;
